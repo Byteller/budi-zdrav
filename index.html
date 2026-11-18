@@ -1,0 +1,480 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="bs"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;Budi Zdrav — Email Signature Generator&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>:root {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--primary: #0b5e3c;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--primary-hover: #08472d;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--bg: #f6f7f8;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--card: #ffffff;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--border: #e4e4e4;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--text: #131515;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--muted: #71757a;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>* {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-sizing: border-box;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background-color: var(--bg);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 40px 20px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>line-height: 1.5;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.container {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>max-width: 1020px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 0 auto;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>header {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 28px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>header h1 {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 22px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>header p {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--muted);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.grid {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: grid;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>grid-template-columns: 1fr 1.1fr;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>gap: 28px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>align-items: start;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>@media (max-width: 820px) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>.grid {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>grid-template-columns: 1fr;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.card {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: var(--card);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid var(--border);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 24px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.card-title {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 13px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-transform: uppercase;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>letter-spacing: 0.05em;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--muted);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 18px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.form-group {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.form-group label {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: block;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 13px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 500;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 5px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.form-group input[type="text"],</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.form-group input[type="email"],</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.form-group input[type="tel"],</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.form-group input[type="url"] {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 9px 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid #d5d7da;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>outline: none;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transition: border-color 0.15s;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.form-group input:focus {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-color: var(--primary);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.photo-controls {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>gap: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn-small {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 8px 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 13px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 7px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid #d5d7da;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #fff;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 500;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn-small:hover {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #f2f3f5;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.preview-box {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #ffffff;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 1px dashed #cfd4dc;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 28px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>min-height: 220px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>overflow-x: auto;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.actions {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>gap: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>flex-wrap: wrap;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn-primary {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: var(--primary);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #fff;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: none;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 11px 18px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transition: background 0.15s;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>flex: 1;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn-primary:hover {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: var(--primary-hover);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn-secondary {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #f1f3f5;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid #dcdfe4;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 11px 18px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transition: background 0.15s;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn-secondary:hover {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #e5e8ec;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.hint {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--muted);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div class="container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;header&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h1&gt;Budi Zdrav — Signature Generator&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;p&gt;Unesite podatke uposlenika, pregledajte potpis i kopirajte ga direktno u Gmail ili Outlook.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/header&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="grid"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- INPUTI --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card-title"&gt;Podaci za potpis&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;label&gt;Profilna slika (opciono)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="photo-controls"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input type="file" id="in-photo" accept="image/*" style="display:none;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button type="button" class="btn-small" onclick="document.getElementById('in-photo').click()"&gt;Odaberi sliku&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button type="button" class="btn-small" id="btn-remove-photo" style="display:none;" onclick="removePhoto()"&gt;Ukloni&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;label for="in-name"&gt;Ime i prezime&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input type="text" id="in-name" value="Anis Katica" placeholder="Ime i prezime"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;label for="in-title"&gt;Pozicija | Firma&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input type="text" id="in-title" value="Founder &amp; Owner | Budi Zdrav" placeholder="Pozicija | Budi Zdrav"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;label for="in-services"&gt;Djelatnost / Opis&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input type="text" id="in-services" value="Kiropraktika • Fizioterapija • Wellness" placeholder="Kiropraktika • Fizioterapija • Wellness"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;label for="in-phone"&gt;Telefon&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input type="tel" id="in-phone" value="+387 62 342 937" placeholder="+387 6X XXX XXX"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;label for="in-email"&gt;Email adresa&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input type="email" id="in-email" value="info@budizdrav.ba" placeholder="ime@budizdrav.ba"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;label for="in-location"&gt;Adresa / Lokacija&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input type="text" id="in-location" value="Augusta Brauna 8, Sarajevo" placeholder="Adresa"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;label for="in-instagram"&gt;Instagram URL&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input type="url" id="in-instagram" value="https://instagram.com/" placeholder="https://instagram.com/profil"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="form-group" style="margin-bottom:0;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;label for="in-logo"&gt;Logo URL (transparentni PNG)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input type="url" id="in-logo" value="https://cdn.jsdelivr.net/gh/Byteller/buzzer-signature/BUDI%20ZDRAV%20Heartbeat%20Logo.png" placeholder="https://..."&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- PREVIEW --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card-title"&gt;Live Preview&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="preview-box" id="signature-wrapper"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;table id="sig-table" cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,Helvetica,sans-serif;background-color:transparent;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;tbody&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;td id="cell-photo" style="vertical-align:top;padding-right:14px;width:76px;line-height:0;font-size:0;display:none;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;img id="photo-img" src="" width="76" height="76" style="width:76px;height:76px;border-radius:50%;object-fit:cover;display:block;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;td id="cell-text" style="vertical-align:top;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div id="out-name" style="font-size:17px;font-weight:600;color:#131515;margin-bottom:3px;"&gt;Anis Katica&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div id="out-title" style="font-size:13px;font-weight:400;color:#8a8a8a;margin-bottom:2px;"&gt;Founder &amp;amp; Owner | Budi Zdrav&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div id="out-services" style="font-size:12px;font-weight:500;color:#0b5e3c;margin-bottom:8px;"&gt;Kiropraktika &amp;bull; Fizioterapija &amp;bull; Wellness&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div style="font-size:12.5px;font-weight:400;line-height:1.5;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div id="row-phone"&gt;&lt;a id="out-phone" href="tel:+38762342937" style="color:#131515;text-decoration:none;"&gt;+387 62 342 937&lt;/a&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div id="row-email"&gt;&lt;a id="out-email" href="mailto:info@budizdrav.ba" style="color:#131515;text-decoration:none;"&gt;info@budizdrav.ba&lt;/a&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div id="out-location" style="color:#8a8a8a;"&gt;Augusta Brauna 8, Sarajevo&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div id="row-instagram" style="padding-top:5px;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;a id="out-instagram" href="https://instagram.com/" style="text-decoration:none;display:inline-block;" target="_blank"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" width="16" height="16" alt="Instagram" style="display:block;border:0;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;td colspan="2" style="padding-top:16px;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;table cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid #e4e4e4;padding-top:12px;width:100%;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;tbody&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;td style="padding-top:12px;height:1px;line-height:1px;font-size:1px;"&gt;&amp;nbsp;&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;td style="vertical-align:middle;" id="logo-cell"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;img id="logo-img-fixed" src="https://cdn.jsdelivr.net/gh/Byteller/buzzer-signature/BUDI%20ZDRAV%20Heartbeat%20Logo.png" width="76" alt="Budi Zdrav" style="display:block;border:0;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/tbody&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/table&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/tbody&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/table&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="actions"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button type="button" class="btn-primary" id="btn-copy-visual" onclick="copySignature()"&gt;Copy Signature (Gmail / Outlook)&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button type="button" class="btn-secondary" id="btn-copy-html" onclick="copyHTML()"&gt;Copy HTML&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="hint"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;strong&gt;Uputstvo:&lt;/strong&gt; Kliknite &lt;em&gt;Copy Signature&lt;/em&gt;, zatim otvorite Gmail → Settings → Signature i pritisnite &lt;strong&gt;Ctrl+V&lt;/strong&gt; (ili &lt;strong&gt;Cmd+V&lt;/strong&gt; na Macu).</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const fields = {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>name: document.getElementById('in-name'),</p>
+<p class="p1"><span class="Apple-converted-space">    </span>title: document.getElementById('in-title'),</p>
+<p class="p1"><span class="Apple-converted-space">    </span>services: document.getElementById('in-services'),</p>
+<p class="p1"><span class="Apple-converted-space">    </span>phone: document.getElementById('in-phone'),</p>
+<p class="p1"><span class="Apple-converted-space">    </span>email: document.getElementById('in-email'),</p>
+<p class="p1"><span class="Apple-converted-space">    </span>location: document.getElementById('in-location'),</p>
+<p class="p1"><span class="Apple-converted-space">    </span>instagram: document.getElementById('in-instagram'),</p>
+<p class="p1"><span class="Apple-converted-space">    </span>logo: document.getElementById('in-logo')</p>
+<p class="p1"><span class="Apple-converted-space">  </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>function updateSignature() {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Ime</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('out-name').textContent = fields.name.value.trim();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Titula</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const titleEl = document.getElementById('out-title');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>titleEl.textContent = fields.title.value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>titleEl.style.display = fields.title.value.trim() ? 'block' : 'none';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Djelatnost</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const servEl = document.getElementById('out-services');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>servEl.textContent = fields.services.value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>servEl.style.display = fields.services.value.trim() ? 'block' : 'none';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Telefon</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const phoneVal = fields.phone.value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const phoneEl = document.getElementById('out-phone');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const rowPhone = document.getElementById('row-phone');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (phoneVal) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>phoneEl.textContent = phoneVal;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>phoneEl.href = 'tel:' + phoneVal.replace(/[^+\d]/g, '');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>rowPhone.style.display = 'block';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>rowPhone.style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Email</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const emailVal = fields.email.value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const emailEl = document.getElementById('out-email');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const rowEmail = document.getElementById('row-email');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (emailVal) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>emailEl.textContent = emailVal;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>emailEl.href = 'mailto:' + emailVal;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>rowEmail.style.display = 'block';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>rowEmail.style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Lokacija</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const locVal = fields.location.value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const locEl = document.getElementById('out-location');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>locEl.textContent = locVal;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>locEl.style.display = locVal ? 'block' : 'none';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Instagram</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const igVal = fields.instagram.value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const igEl = document.getElementById('out-instagram');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const rowIg = document.getElementById('row-instagram');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (igVal) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>igEl.href = igVal;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>rowIg.style.display = 'block';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>rowIg.style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Logo</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const logoVal = fields.logo.value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const logoImg = document.getElementById('logo-img-fixed');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (logoVal) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>logoImg.src = logoVal;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>logoImg.style.display = 'block';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>logoImg.style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>Object.values(fields).forEach(input =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>input.addEventListener('input', updateSignature);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>// Upload i crop profilne slike u kvadrat (76x76)</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('in-photo').addEventListener('change', function(e) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const file = e.target.files[0];</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (!file) return;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const reader = new FileReader();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>reader.onload = function(event) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const img = new Image();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>img.onload = function() {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const canvas = document.createElement('canvas');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const size = 152; // 2x za retina ekrane</p>
+<p class="p1"><span class="Apple-converted-space">        </span>canvas.width = size;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>canvas.height = size;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const ctx = canvas.getContext('2d');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const minSide = Math.min(img.width, img.height);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const sx = (img.width - minSide) / 2;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const sy = (img.height - minSide) / 2;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>ctx.drawImage(img, sx, sy, minSide, minSide, 0, 0, size, size);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const dataUrl = canvas.toDataURL('image/jpeg', 0.9);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('photo-img').src = dataUrl;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('cell-photo').style.display = 'table-cell';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('btn-remove-photo').style.display = 'inline-block';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p1"><span class="Apple-converted-space">      </span>img.src = event.target.result;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>};</p>
+<p class="p1"><span class="Apple-converted-space">    </span>reader.readAsDataURL(file);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>function removePhoto() {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('in-photo').value = '';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('photo-img').src = '';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('cell-photo').style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('btn-remove-photo').style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>// Kopiranje vizuelnog potpisa (za direktan paste u Gmail/Outlook)</p>
+<p class="p1"><span class="Apple-converted-space">  </span>function copySignature() {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const sigTable = document.getElementById('sig-table');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const range = document.createRange();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>range.selectNode(sigTable);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const selection = window.getSelection();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>selection.removeAllRanges();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>selection.addRange(range);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.execCommand('copy');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>selection.removeAllRanges();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const btn = document.getElementById('btn-copy-visual');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const orig = btn.textContent;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>btn.textContent = 'Kopirano! Zalijepi u Gmail (Ctrl+V)';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>setTimeout(() =&gt; btn.textContent = orig, 2500);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>// Kopiranje čistog HTML koda</p>
+<p class="p1"><span class="Apple-converted-space">  </span>function copyHTML() {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const html = document.getElementById('signature-wrapper').innerHTML.trim();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>navigator.clipboard.writeText(html).then(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const btn = document.getElementById('btn-copy-html');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const orig = btn.textContent;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>btn.textContent = 'HTML kopiran!';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>setTimeout(() =&gt; btn.textContent = orig, 2000);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>updateSignature();</p>
+<p class="p1">&lt;/script&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
