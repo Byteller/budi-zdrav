@@ -235,8 +235,13 @@
       <div class="card-title">Podaci za potpis</div>
 
       <div class="form-group">
-        <label for="in-photo-url">Profilna slika (URL, opciono)</label>
-        <input type="url" id="in-photo-url" name="photoUrl" value="" placeholder="https://...">
+        <label>Profilna slika (opciono)</label>
+        <div class="photo-controls">
+          <input type="file" id="in-photo" accept="image/*" style="display:none;">
+          <button type="button" class="btn-small" id="btn-pick-photo">Odaberi sliku</button>
+          <button type="button" class="btn-small" id="btn-remove-photo" style="display:none;">Ukloni</button>
+          <span class="photo-status" id="photo-status" aria-live="polite"></span>
+        </div>
       </div>
 
       <div class="form-group">
@@ -334,8 +339,7 @@
     location: document.getElementById('in-location'),
     instagram: document.getElementById('in-instagram'),
     logo: document.getElementById('in-logo'),
-    logoDark: document.getElementById('in-logo-dark'),
-    photoUrl: document.getElementById('in-photo-url')
+    logoDark: document.getElementById('in-logo-dark')
   };
 
   fields.logo.value = DEFAULT_LOGO;
@@ -345,6 +349,7 @@
 
   // photo.src: hosted URL (works in all email clients) or data URL (local fallback)
   let photo = { src: '', hosted: false, uploading: false };
+  const photoStatus = document.getElementById('photo-status');
 
   const wrapper = document.getElementById('signature-wrapper');
   const btnCopy = document.getElementById('btn-copy-visual');
@@ -472,7 +477,6 @@
 
   // ---------- Rendering & persistence ----------
   function updateSignature() {
-    photo.src = safeUrl(fields.photoUrl.value);
     wrapper.innerHTML = buildSignatureHTML(values(), previewMode);
     wrapper.classList.toggle('dark', previewMode === 'dark');
     const busy = photo.uploading;
@@ -509,7 +513,8 @@
   function save() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        fields: values()
+        fields: values(),
+        photo: photo.src
       }));
     } catch (e) { /* storage unavailable */ }
   }
@@ -523,6 +528,10 @@
         if (k === 'logo' && (BROKEN_LOGOS.includes(v) || v === OLD_DEFAULT_LOGO)) fields.logo.value = DEFAULT_LOGO;
         if (k === 'logoDark' && !v) fields.logoDark.value = DEFAULT_LOGO_DARK;
       });
+      if (typeof saved.photo === 'string' && /^data:image\/jpeg;base64,/.test(saved.photo)) {
+        photo = { src: saved.photo, hosted: false, uploading: false };
+        document.getElementById('btn-remove-photo').style.display = 'inline-block';
+      }
     } catch (e) { /* ignore corrupt data */ }
   }
 
@@ -539,8 +548,61 @@
 
   document.getElementById('btn-reset').addEventListener('click', () => {
     Object.entries(defaults).forEach(([k, v]) => { fields[k].value = v; });
+    removePhoto();
+  });
+
+  // ---------- Photo: crop to square (152px), embed in signature ----------
+  function setPhotoStatus(text, kind) {
+    photoStatus.textContent = text;
+    photoStatus.className = 'photo-status' + (kind ? ' ' + kind : '');
+  }
+
+  function cropToSquare(file) {
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        const size = 152; // 2x za retina ekrane
+        const canvas = document.createElement('canvas');
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, size, size);
+        const minSide = Math.min(img.width, img.height);
+        ctx.drawImage(img, (img.width - minSide) / 2, (img.height - minSide) / 2, minSide, minSide, 0, 0, size, size);
+        URL.revokeObjectURL(url);
+        resolve(canvas.toDataURL('image/jpeg', 0.9));
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('load')); };
+      img.src = url;
+    });
+  }
+
+  document.getElementById('btn-pick-photo').addEventListener('click', () => document.getElementById('in-photo').click());
+
+  document.getElementById('in-photo').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    e.target.value = '';
+    if (!file) return;
+    try {
+      photo = { src: await cropToSquare(file), hosted: false, uploading: false };
+    } catch (err) {
+      setPhotoStatus('Slika se ne može učitati.', 'error');
+      return;
+    }
+    document.getElementById('btn-remove-photo').style.display = 'inline-block';
+    setPhotoStatus('Slika spremna ✓', 'ok');
     updateSignature();
   });
+
+  function removePhoto() {
+    photo = { src: '', hosted: false, uploading: false };
+    document.getElementById('btn-remove-photo').style.display = 'none';
+    setPhotoStatus('');
+    updateSignature();
+  }
+  document.getElementById('btn-remove-photo').addEventListener('click', removePhoto);
 
   // ---------- Copy ----------
   function flash(btn, text, ms) {
