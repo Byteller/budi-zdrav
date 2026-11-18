@@ -275,14 +275,23 @@
       </div>
 
       <div class="form-group" style="margin-bottom:0;">
-        <label for="in-logo">Logo URL (transparentni PNG)</label>
-        <input type="url" id="in-logo" name="logo" value="" placeholder="https://...">
-        <span class="photo-status" id="logo-status" aria-live="polite"></span>
+        <label>Logo (transparentni PNG, za svijetlu temu)</label>
+        <input type="hidden" id="in-logo" name="logo">
+        <div class="photo-controls">
+          <input type="file" id="in-logo-file" accept="image/png,image/jpeg,image/webp" style="display:none;">
+          <button type="button" class="btn-small" id="btn-pick-logo">Odaberi logo</button>
+          <span class="photo-status" id="logo-status" aria-live="polite"></span>
+        </div>
       </div>
 
       <div class="form-group" style="margin:16px 0 0;">
-        <label for="in-logo-dark">Logo za dark mode (URL, svijetli logo)</label>
-        <input type="url" id="in-logo-dark" name="logoDark" value="" placeholder="https://...">
+        <label>Logo za dark mode (svijetli logo)</label>
+        <input type="hidden" id="in-logo-dark" name="logoDark">
+        <div class="photo-controls">
+          <input type="file" id="in-logo-dark-file" accept="image/png,image/jpeg,image/webp" style="display:none;">
+          <button type="button" class="btn-small" id="btn-pick-logo-dark">Odaberi dark logo</button>
+          <span class="photo-status" id="logo-dark-status" aria-live="polite"></span>
+        </div>
       </div>
 
       <div class="actions">
@@ -372,6 +381,12 @@
     }
   }
 
+  // Logos: http(s) URL (defaults) or an uploaded PNG embedded as a data URL
+  function imgSrc(value) {
+    const v = value.trim();
+    return /^data:image\/png;base64,[A-Za-z0-9+\/=]+$/.test(v) ? v : safeUrl(v);
+  }
+
   function values() {
     return Object.fromEntries(Object.entries(fields).map(([k, el]) => [k, el.value.trim()]));
   }
@@ -384,8 +399,8 @@
     const phoneHref = d.phone.replace(/[^+\d]/g, '');
     const emailOk = /^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]+$/.test(d.email);
     const igUrl = INSTAGRAM_URL;
-    const logoUrl = safeUrl(d.logo);
-    const logoDarkUrl = safeUrl(d.logoDark);
+    const logoUrl = imgSrc(d.logo);
+    const logoDarkUrl = imgSrc(d.logoDark);
 
     const lines = [];
     if (d.name) lines.push(`<div class="bz-text" data-dm-text style="${font}font-size:17px;font-weight:600;color:#131515;margin-bottom:3px;">${esc(d.name)}</div>`);
@@ -477,33 +492,50 @@
     const busy = photo.uploading;
     btnCopy.disabled = busy;
     btnCopyHtml.disabled = busy;
-    checkLogo();
     save();
   }
 
-  // ---------- Logo: check it loads, allow upload ----------
-  const logoStatus = document.getElementById('logo-status');
-  let logoChecked = '';
-  let logoUploading = false;
-
-  function setLogoStatus(text, kind) {
-    logoStatus.textContent = text;
-    logoStatus.className = 'photo-status' + (kind ? ' ' + kind : '');
+  // ---------- Logo upload: resize to 152px wide PNG (keeps transparency) ----------
+  function resizeLogo(file) {
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        const width = Math.min(152, img.width);
+        const height = Math.max(1, Math.round(img.height * width / img.width));
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+        URL.revokeObjectURL(url);
+        resolve(canvas.toDataURL('image/png'));
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('load')); };
+      img.src = url;
+    });
   }
 
-  function checkLogo() {
-    if (logoUploading) return;
-    const url = safeUrl(fields.logo.value);
-    if (url === logoChecked) return;
-    logoChecked = url;
-    if (!url) { setLogoStatus(''); return; }
-    const probe = new Image();
-    probe.onload = () => { if (logoChecked === url) setLogoStatus(''); };
-    probe.onerror = () => {
-      if (logoChecked === url) setLogoStatus('Logo se ne može učitati — učitajte sliku ili provjerite link.', 'error');
-    };
-    probe.src = url;
+  function wireLogoUpload(pickId, fileId, statusId, field) {
+    const status = document.getElementById(statusId);
+    document.getElementById(pickId).addEventListener('click', () => document.getElementById(fileId).click());
+    document.getElementById(fileId).addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      e.target.value = '';
+      if (!file) return;
+      try {
+        field.value = await resizeLogo(file);
+        status.textContent = 'Logo spreman ✓';
+        status.className = 'photo-status ok';
+      } catch (err) {
+        status.textContent = 'Slika se ne može učitati.';
+        status.className = 'photo-status error';
+        return;
+      }
+      updateSignature();
+    });
   }
+  wireLogoUpload('btn-pick-logo', 'in-logo-file', 'logo-status', fields.logo);
+  wireLogoUpload('btn-pick-logo-dark', 'in-logo-dark-file', 'logo-dark-status', fields.logoDark);
 
   function save() {
     try {
