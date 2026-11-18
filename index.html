@@ -235,13 +235,8 @@
       <div class="card-title">Podaci za potpis</div>
 
       <div class="form-group">
-        <label>Profilna slika (opciono)</label>
-        <div class="photo-controls">
-          <input type="file" id="in-photo" accept="image/*" style="display:none;">
-          <button type="button" class="btn-small" id="btn-pick-photo">Odaberi sliku</button>
-          <button type="button" class="btn-small" id="btn-remove-photo" style="display:none;">Ukloni</button>
-          <span class="photo-status" id="photo-status" aria-live="polite"></span>
-        </div>
+        <label for="in-photo-url">Profilna slika (URL, opciono)</label>
+        <input type="url" id="in-photo-url" name="photoUrl" value="" placeholder="https://...">
       </div>
 
       <div class="form-group">
@@ -282,11 +277,7 @@
       <div class="form-group" style="margin-bottom:0;">
         <label for="in-logo">Logo URL (transparentni PNG)</label>
         <input type="url" id="in-logo" name="logo" value="" placeholder="https://...">
-        <div class="photo-controls" style="margin-top:8px;">
-          <input type="file" id="in-logo-file" accept="image/png,image/jpeg" style="display:none;">
-          <button type="button" class="btn-small" id="btn-pick-logo">Učitaj logo sa računara</button>
-          <span class="photo-status" id="logo-status" aria-live="polite"></span>
-        </div>
+        <span class="photo-status" id="logo-status" aria-live="polite"></span>
       </div>
 
       <div class="form-group" style="margin:16px 0 0;">
@@ -343,7 +334,8 @@
     location: document.getElementById('in-location'),
     instagram: document.getElementById('in-instagram'),
     logo: document.getElementById('in-logo'),
-    logoDark: document.getElementById('in-logo-dark')
+    logoDark: document.getElementById('in-logo-dark'),
+    photoUrl: document.getElementById('in-photo-url')
   };
 
   fields.logo.value = DEFAULT_LOGO;
@@ -357,7 +349,6 @@
   const wrapper = document.getElementById('signature-wrapper');
   const btnCopy = document.getElementById('btn-copy-visual');
   const btnCopyHtml = document.getElementById('btn-copy-html');
-  const photoStatus = document.getElementById('photo-status');
 
   // ---------- Helpers ----------
   function esc(value) {
@@ -481,6 +472,7 @@
 
   // ---------- Rendering & persistence ----------
   function updateSignature() {
+    photo.src = safeUrl(fields.photoUrl.value);
     wrapper.innerHTML = buildSignatureHTML(values(), previewMode);
     wrapper.classList.toggle('dark', previewMode === 'dark');
     const busy = photo.uploading;
@@ -514,67 +506,10 @@
     probe.src = url;
   }
 
-  // Resize to 152px wide (2x of 76px) as PNG to keep transparency
-  function resizeLogo(file) {
-    return new Promise((resolve, reject) => {
-      const url = URL.createObjectURL(file);
-      const img = new Image();
-      img.onload = () => {
-        const width = Math.min(152, img.width);
-        const height = Math.max(1, Math.round(img.height * width / img.width));
-        const canvas = document.createElement('canvas');
-        canvas.width = width;
-        canvas.height = height;
-        canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-        URL.revokeObjectURL(url);
-        canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('resize')), 'image/png');
-      };
-      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('load')); };
-      img.src = url;
-    });
-  }
-
-  document.getElementById('btn-pick-logo').addEventListener('click', () => {
-    document.getElementById('in-logo-file').click();
-  });
-
-  document.getElementById('in-logo-file').addEventListener('change', async (e) => {
-    const file = e.target.files[0];
-    e.target.value = '';
-    if (!file) return;
-    let blob;
-    try {
-      blob = await resizeLogo(file);
-    } catch (err) {
-      setLogoStatus('Slika se ne može učitati.', 'error');
-      return;
-    }
-    logoUploading = true;
-    setLogoStatus('Učitavanje logotipa…');
-    try {
-      const res = await fetch('/api/photo', {
-        method: 'POST',
-        headers: { 'content-type': 'image/png' },
-        body: blob
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || !data.path) throw new Error(data.error || 'upload');
-      logoUploading = false;
-      fields.logo.value = new URL(data.path, location.origin).href;
-      logoChecked = fields.logo.value;
-      setLogoStatus('Logo spreman ✓', 'ok');
-    } catch (err) {
-      logoUploading = false;
-      setLogoStatus('Upload logotipa nije uspio. Pokušajte ponovo.', 'error');
-    }
-    updateSignature();
-  });
-
   function save() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        fields: values(),
-        photo: photo.hosted ? photo.src : ''
+        fields: values()
       }));
     } catch (e) { /* storage unavailable */ }
   }
@@ -588,10 +523,6 @@
         if (k === 'logo' && (BROKEN_LOGOS.includes(v) || v === OLD_DEFAULT_LOGO)) fields.logo.value = DEFAULT_LOGO;
         if (k === 'logoDark' && !v) fields.logoDark.value = DEFAULT_LOGO_DARK;
       });
-      if (saved.photo && safeUrl(saved.photo)) {
-        photo = { src: saved.photo, hosted: true, uploading: false };
-        document.getElementById('btn-remove-photo').style.display = 'inline-block';
-      }
     } catch (e) { /* ignore corrupt data */ }
   }
 
@@ -608,89 +539,8 @@
 
   document.getElementById('btn-reset').addEventListener('click', () => {
     Object.entries(defaults).forEach(([k, v]) => { fields[k].value = v; });
-    removePhoto();
-  });
-
-  // ---------- Photo: crop to square, then host it ----------
-  function setPhotoStatus(text, kind) {
-    photoStatus.textContent = text;
-    photoStatus.className = 'photo-status' + (kind ? ' ' + kind : '');
-  }
-
-  function cropToSquare(file) {
-    return new Promise((resolve, reject) => {
-      const url = URL.createObjectURL(file);
-      const img = new Image();
-      img.onload = () => {
-        const size = 152; // 2x za retina ekrane
-        const canvas = document.createElement('canvas');
-        canvas.width = size;
-        canvas.height = size;
-        const ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, size, size);
-        const minSide = Math.min(img.width, img.height);
-        const sx = (img.width - minSide) / 2;
-        const sy = (img.height - minSide) / 2;
-        ctx.drawImage(img, sx, sy, minSide, minSide, 0, 0, size, size);
-        URL.revokeObjectURL(url);
-        canvas.toBlob(blob => blob ? resolve({ blob, dataUrl: canvas.toDataURL('image/jpeg', 0.9) }) : reject(new Error('crop')), 'image/jpeg', 0.9);
-      };
-      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('load')); };
-      img.src = url;
-    });
-  }
-
-  document.getElementById('btn-pick-photo').addEventListener('click', () => {
-    document.getElementById('in-photo').click();
-  });
-
-  document.getElementById('in-photo').addEventListener('change', async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    let cropped;
-    try {
-      cropped = await cropToSquare(file);
-    } catch (err) {
-      setPhotoStatus('Slika se ne može učitati.', 'error');
-      return;
-    }
-
-    const token = Symbol();
-    photo = { src: cropped.dataUrl, hosted: false, uploading: true, token };
-    document.getElementById('btn-remove-photo').style.display = 'inline-block';
-    setPhotoStatus('Učitavanje slike…');
-    updateSignature();
-
-    try {
-      const res = await fetch('/api/photo', {
-        method: 'POST',
-        headers: { 'content-type': 'image/jpeg' },
-        body: cropped.blob
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || !data.path) throw new Error(data.error || 'upload');
-      if (photo.token !== token) return; // removed or replaced meanwhile
-      photo = { src: new URL(data.path, location.origin).href, hosted: true, uploading: false };
-      setPhotoStatus('Slika spremna ✓', 'ok');
-    } catch (err) {
-      if (photo.token !== token) return;
-      photo = { src: cropped.dataUrl, hosted: false, uploading: false };
-      setPhotoStatus('Upload nije uspio — slika možda neće biti vidljiva u Gmailu.', 'error');
-    }
     updateSignature();
   });
-
-  function removePhoto() {
-    document.getElementById('in-photo').value = '';
-    photo = { src: '', hosted: false, uploading: false };
-    document.getElementById('btn-remove-photo').style.display = 'none';
-    setPhotoStatus('');
-    updateSignature();
-  }
-
-  document.getElementById('btn-remove-photo').addEventListener('click', removePhoto);
 
   // ---------- Copy ----------
   function flash(btn, text, ms) {
